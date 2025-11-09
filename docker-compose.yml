@@ -20,7 +20,7 @@ services:
       - "traefik.http.routers.station1.entrypoints=websecure"
       - "traefik.http.routers.station1.middlewares=redir-station1"
       - "traefik.http.middlewares.redir-station1.redirectregex.regex=^https?://example.com/station/1/?(.*)"
-      - "traefik.http.middlewares.redir-station1.redirectregex.replacement=https://live.tunein.com/Today-FM-s28732/playlist.m3u$${1}"
+      - "traefik.http.middlewares.redir-station1.redirectregex.replacement=https://stream.audioxi.com/TD$${1}"
       - "traefik.http.middlewares.redir-station1.redirectregex.permanent=true"
 
       # 3. /station/2 → Lyric FM
