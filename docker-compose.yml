@@ -56,8 +56,8 @@ services:
       - "traefik.http.middlewares.redir-station5.redirectregex.permanent=true"
 
 
-  networks:
-    - traefik
+    networks:
+      - traefik
 
 networks:
   traefik:
