@@ -1,0 +1,64 @@
+services:
+  bose-redirector:
+    image: alpine
+    command: sleep infinity
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.redirector.loadbalancer.server.port=80"
+
+      # 1. /station/0 → RTE Radio One
+      - "traefik.http.routers.station0.rule=Host(`example.com`) && PathPrefix(`/station/0`)"
+      - "traefik.http.routers.station0.entrypoints=websecure"
+      - "traefik.http.routers.station0.middlewares=redir-station0"
+      - "traefik.http.middlewares.redir-station0.redirectregex.regex=^https?://example.com/station/0/?(.*)"
+      - "traefik.http.middlewares.redir-station0.redirectregex.replacement=https://www.rte.ie/manifests/radio1.m3u$${1}"
+      - "traefik.http.middlewares.redir-station0.redirectregex.permanent=true"
+
+      # 2. /station/1 → Today FM
+      - "traefik.http.routers.station1.rule=Host(`example.com`) && PathPrefix(`/station/1`)"
+      - "traefik.http.routers.station1.entrypoints=websecure"
+      - "traefik.http.routers.station1.middlewares=redir-station1"
+      - "traefik.http.middlewares.redir-station1.redirectregex.regex=^https?://example.com/station/1/?(.*)"
+      - "traefik.http.middlewares.redir-station1.redirectregex.replacement=https://live.tunein.com/Today-FM-s28732/playlist.m3u$${1}"
+      - "traefik.http.middlewares.redir-station1.redirectregex.permanent=true"
+
+      # 3. /station/2 → Lyric FM
+      - "traefik.http.routers.station2.rule=Host(`example.com`) && PathPrefix(`/station/2`)"
+      - "traefik.http.routers.station2.entrypoints=websecure"
+      - "traefik.http.routers.station2.middlewares=redir-station2"
+      - "traefik.http.middlewares.redir-station2.redirectregex.regex=^https?://example.com/station/2/?(.*)"
+      - "traefik.http.middlewares.redir-station2.redirectregex.replacement=https://www.rte.ie/manifests/lyric.m3u$${1}"
+      - "traefik.http.middlewares.redir-station2.redirectregex.permanent=true"
+
+      # 4. /station/3 → http://www.streamingsoundtracks.com/aacPlus-hi.pls
+      - "traefik.http.routers.station3.rule=Host(`example.com`) && PathPrefix(`/station/3`)"
+      - "traefik.http.routers.station3.entrypoints=websecure"
+      - "traefik.http.routers.station3.middlewares=redir-station3"
+      - "traefik.http.middlewares.redir-station3.redirectregex.regex=^https?://example.com/station/3/?(.*)"
+      - "traefik.http.middlewares.redir-station3.redirectregex.replacement=https://target3.example.net/$${1}"
+      - "traefik.http.middlewares.redir-station3.redirectregex.permanent=true"
+
+      # 5. /station/4 → https://target4.example.net/
+      - "traefik.http.routers.station4.rule=Host(`example.com`) && PathPrefix(`/station/4`)"
+      - "traefik.http.routers.station4.entrypoints=websecure"
+      - "traefik.http.routers.station4.middlewares=redir-station4"
+      - "traefik.http.middlewares.redir-station4.redirectregex.regex=^https?://example.com/station/4/?(.*)"
+      - "traefik.http.middlewares.redir-station4.redirectregex.replacement=https://target4.example.net/$${1}"
+      - "traefik.http.middlewares.redir-station4.redirectregex.permanent=true"
+
+      # 6. /station/5 → Classic FM
+      - "traefik.http.routers.station5.rule=Host(`example.com`) && PathPrefix(`/station/5`)"
+      - "traefik.http.routers.station5.entrypoints=websecure"
+      - "traefik.http.routers.station5.middlewares=redir-station5"
+      - "traefik.http.middlewares.redir-station5.redirectregex.regex=^https?://example.com/station/5/?(.*)"
+      - "traefik.http.middlewares.redir-station5.redirectregex.replacement=http://media-ice.musicradio.com/ClassicFMMP3.m3u$${1}"
+      - "traefik.http.middlewares.redir-station5.redirectregex.permanent=true"
+
+
+  networks:
+    - traefik
+
+networks:
+  traefik:
+    external: true
