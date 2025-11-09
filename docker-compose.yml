@@ -31,12 +31,12 @@ services:
       - "traefik.http.middlewares.redir-station2.redirectregex.replacement=https://www.rte.ie/manifests/lyric.m3u$${1}"
       - "traefik.http.middlewares.redir-station2.redirectregex.permanent=true"
 
-      # 4. /station/3 → http://www.streamingsoundtracks.com/aacPlus-hi.pls
+      # 4. /station/3 → StreamingSoundtracks.com
       - "traefik.http.routers.station3.rule=Host(`example.com`) && PathPrefix(`/station/3`)"
       - "traefik.http.routers.station3.entrypoints=websecure"
       - "traefik.http.routers.station3.middlewares=redir-station3"
       - "traefik.http.middlewares.redir-station3.redirectregex.regex=^https?://example.com/station/3/?(.*)"
-      - "traefik.http.middlewares.redir-station3.redirectregex.replacement=https://target3.example.net/$${1}"
+      - "traefik.http.middlewares.redir-station3.redirectregex.replacement=http://www.streamingsoundtracks.com/aacPlus-hi.pls$${1}"
       - "traefik.http.middlewares.redir-station3.redirectregex.permanent=true"
 
       # 5. /station/4 → https://target4.example.net/
